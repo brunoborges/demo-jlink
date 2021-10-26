@@ -1,5 +1,4 @@
-ARG JAVA_VERSION=11
-FROM eclipse-temurin:${JAVA_VERSION}-jre-focal
+FROM eclipse-temurin:11-jre-focal
 
 COPY target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
 

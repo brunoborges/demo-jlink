@@ -1,30 +1,16 @@
-ARG JAVA_VERSION=11
+FROM azul/zulu-openjdk-alpine:17 as stageBuild
 
-# Build stage
-FROM azul/zulu-openjdk-alpine:$JAVA_VERSION as stageBuild
-
-# Create a custom Java runtime
 RUN $JAVA_HOME/bin/jlink \
          --add-modules java.base,java.logging,java.management \
-         # Java 11
-         # --strip-debug \
-         # Java 17
          --strip-java-debug-attributes \
          --no-man-pages \
          --no-header-files \
          --compress=2 \
-         --output /javaruntime
+         --output /jvm
 
-##################
-# Ultimate image #
-##################
 FROM alpine:3.14
 
-ENV PATH "/javaruntime/bin:${PATH}"
+COPY --from=stageBuild /jvm /jvm
+COPY --from=demoapp:jdk /target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
 
-COPY --from=stageBuild /javaruntime /javaruntime
-
-# Copy the app jar to the runtime build in case we want to analyze with jdeps
-COPY target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
-
-CMD ["java", "-jar", "/demoapp.jar"]
+CMD ["/jvm/bin/java", "-jar", "/demoapp.jar"]

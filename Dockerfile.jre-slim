@@ -1,16 +1,8 @@
-ARG JAVA_VERSION=11
-FROM eclipse-temurin:$JAVA_VERSION-jre-focal as stageBuild
-
-##################
-# Ultimate image #
-##################
 FROM debian:buster-slim
 
 ENV PATH "/javaruntime/bin:${PATH}"
 
-COPY --from=stageBuild /opt/java/openjdk /javaruntime
-
-# Copy the app jar to the runtime build in case we want to analyze with jdeps
-COPY target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
+COPY --from=eclipse-temurin:11-jre-focal /opt/java/openjdk /javaruntime
+COPY --from=demoapp:jdk /target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
 
 CMD ["java", "-jar", "/demoapp.jar"]
