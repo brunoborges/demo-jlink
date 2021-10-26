@@ -1,7 +1,7 @@
 FROM azul/zulu-openjdk-alpine:17 as stageBuild
 
 RUN $JAVA_HOME/bin/jlink \
-         --add-modules java.base,java.logging,java.management \
+         --add-modules java.base,java.logging \
          --strip-java-debug-attributes \
          --no-man-pages \
          --no-header-files \
