@@ -1,0 +1,2 @@
+FROM debian:buster-slim
+ADD https://aka.ms/download-jdk/microsoft-jdk-11.0.12.7.1-linux-x64.tar.gz /
