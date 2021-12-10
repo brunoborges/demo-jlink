@@ -5,7 +5,7 @@ FROM azul/zulu-openjdk-alpine:11 as jlinkStage
 
 RUN $JAVA_HOME/bin/jlink \
          --add-modules java.base,java.logging \
-         --strip-java-debug-attributes \
+         --strip-debug \
          --no-man-pages \
          --no-header-files \
          --compress=2 \
