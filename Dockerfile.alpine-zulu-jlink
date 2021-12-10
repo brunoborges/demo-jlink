@@ -14,7 +14,7 @@ RUN $JAVA_HOME/bin/jlink \
 ##
 ## Final Stage
 ##
-FROM alpine:3.14
+FROM alpine
 
 COPY --from=jlinkStage /jvm /jvm
 COPY --from=demoapp:jdk /demoapp.jar /
