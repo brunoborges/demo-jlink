@@ -1,4 +1,7 @@
-FROM azul/zulu-openjdk-alpine:17 as stageBuild
+## 
+## jlink Stage
+## 
+FROM azul/zulu-openjdk-alpine:11 as jlinkStage
 
 RUN $JAVA_HOME/bin/jlink \
          --add-modules java.base,java.logging \
@@ -8,9 +11,12 @@ RUN $JAVA_HOME/bin/jlink \
          --compress=2 \
          --output /jvm
 
+##
+## Final Stage
+##
 FROM alpine:3.14
 
-COPY --from=stageBuild /jvm /jvm
-COPY --from=demoapp:jdk /target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
+COPY --from=jlinkStage /jvm /jvm
+COPY --from=demoapp:jdk /demoapp.jar /
 
 CMD ["/jvm/bin/java", "-jar", "/demoapp.jar"]

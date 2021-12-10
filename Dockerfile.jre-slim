@@ -3,6 +3,7 @@ FROM debian:buster-slim
 ENV PATH "/javaruntime/bin:${PATH}"
 
 COPY --from=eclipse-temurin:11-jre-focal /opt/java/openjdk /javaruntime
-COPY --from=demoapp:jdk /target/demoapp-1.0-SNAPSHOT-jar-with-dependencies.jar /demoapp.jar
+
+COPY --from=demoapp:jdk /demoapp.jar /
 
 CMD ["java", "-jar", "/demoapp.jar"]

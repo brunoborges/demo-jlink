@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/openjdk/jdk:11-ubuntu 
+FROM eclipse-temurin:11
 
 ADD mvnw /mvnw
 ADD .mvn /.mvn

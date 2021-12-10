@@ -1,7 +1,7 @@
 ## 
 ## jlink Stage
 ##
-FROM eclipse-temurin:11 as jlinkStage
+FROM eclipse-temurin:11-alpine as jlinkStage
 
 RUN $JAVA_HOME/bin/jlink \
          --add-modules java.base,java.logging \
@@ -14,7 +14,7 @@ RUN $JAVA_HOME/bin/jlink \
 ##
 ## Final Stage
 ##
-FROM debian:buster-slim
+FROM alpine
 
 COPY --from=jlinkStage /jvm /jvm
 COPY --from=demoapp:jdk /demoapp.jar /
